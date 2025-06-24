@@ -1,52 +1,96 @@
-import { useEffect } from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
-
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
-
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { InventoryProvider } from './context/InventoryContext';
+import Layout from './components/Layout';
+import Dashboard from './components/Dashboard';
+import Products from './components/Products';
+import Sales from './components/Sales';
+import Suppliers from './components/Suppliers';
+import Customers from './components/Customers';
+import PurchaseOrders from './components/PurchaseOrders';
+import Reports from './components/Reports';
+import Users from './components/Users';
+import Settings from './components/Settings';
+import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute';
+import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <InventoryProvider>
+          <Router>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Dashboard />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/products" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Products />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/sales" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Sales />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/suppliers" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Suppliers />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/customers" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Customers />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/purchase-orders" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <PurchaseOrders />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/reports" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Reports />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/users" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Users />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/settings" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Settings />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+            </Routes>
+          </Router>
+        </InventoryProvider>
+      </AuthProvider>
     </div>
   );
 }

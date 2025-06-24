@@ -9,6 +9,7 @@ import Sales from './components/Sales';
 import Suppliers from './components/Suppliers';
 import Customers from './components/Customers';
 import PurchaseOrders from './components/PurchaseOrders';
+import Communications from './components/Communications';
 import Reports from './components/Reports';
 import Users from './components/Users';
 import Settings from './components/Settings';
@@ -63,6 +64,13 @@ function App() {
                 <ProtectedRoute>
                   <Layout>
                     <PurchaseOrders />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/communications" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Communications />
                   </Layout>
                 </ProtectedRoute>
               } />
